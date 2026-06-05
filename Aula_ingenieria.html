@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aula Ingeniería – Clases Particulares</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --azul-claro:#cce9f6;
+  --azul-medio:#a8d8ea;
+  --azul-oscuro:#2e86ab;
+  --card:rgba(255,255,255,0.78);
+  --texto:#0d2d3e;
+  --verde-wa:#25d366;
+  --radio:18px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:linear-gradient(160deg,#cce9f6 0%,#b3ddf2 50%,#9ed2ed 100%);
+  min-height:100vh;
+  color:var(--texto);
+}
+
+/* SPLASH */
+#splash{
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(135deg,#3a9dc4,#1a6e96);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:28px;
+  transition:opacity .55s ease,visibility .55s ease;
+}
+#splash.oculto{opacity:0;visibility:hidden;}
+.splash-titulo{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.2rem,7vw,4.5rem);
+  font-weight:900;color:#fff;letter-spacing:3px;
+  text-shadow:0 6px 28px rgba(0,0,0,.25);
+  animation:sube .7s ease both;
+}
+.splash-sub{
+  font-size:1.1rem;color:rgba(255,255,255,.82);
+  animation:sube .7s .2s ease both;
+}
+.barra-wrap{
+  width:min(360px,78vw);height:7px;
+  background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden;
+  animation:sube .7s .3s ease both;
+}
+.barra-fill{
+  height:100%;width:0%;background:#fff;border-radius:99px;
+  animation:carga 1.6s .45s ease forwards;
+}
+@keyframes carga{to{width:100%;}}
+@keyframes sube{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* PÁGINA */
+#pagina{opacity:0;transition:opacity .6s ease;}
+#pagina.visible{opacity:1;}
+
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(200,235,248,0.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1.5px solid rgba(255,255,255,.55);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 6vw;height:66px;
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;font-weight:900;color:var(--azul-oscuro);
+}
+.nav-links{display:flex;gap:26px;list-style:none;}
+.nav-links a{text-decoration:none;font-size:.9rem;font-weight:500;color:var(--texto);transition:color .2s;}
+.nav-links a:hover{color:var(--azul-oscuro);}
+
+/* HERO */
+.hero{text-align:center;padding:88px 6vw 64px;position:relative;overflow:hidden;}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 65% at 50% 0%,rgba(62,162,204,.28),transparent 72%);
+  pointer-events:none;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,8vw,5.8rem);
+  font-weight:900;color:var(--azul-oscuro);margin-bottom:18px;
+  animation:sube .75s .1s ease both;
+}
+.hero h1 em{color:var(--texto);font-style:normal;}
+.hero .desc{
+  font-size:clamp(1.05rem,2.6vw,1.4rem);
+  color:var(--texto);max-width:580px;margin:0 auto 38px;
+  animation:sube .75s .25s ease both;
+}
+.rutas{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;animation:sube .75s .38s ease both;}
+.ruta-pill{
+  background:var(--azul-oscuro);color:#fff;
+  padding:11px 30px;border-radius:99px;
+  font-size:.95rem;font-weight:600;text-decoration:none;
+  box-shadow:0 4px 16px rgba(46,134,171,.3);
+  transition:background .2s,transform .15s;
+}
+.ruta-pill:hover{background:#1a6e96;transform:translateY(-3px);}
+
+/* BANNER */
+.banner{
+  text-align:center;
+  background:linear-gradient(90deg,var(--azul-oscuro),#3aadd4);
+  color:#fff;padding:24px 6vw;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.1rem,2.8vw,1.55rem);
+}
+
+/* SECCIONES */
+section{padding:72px 6vw;}
+.sec-titulo{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.8rem,4vw,2.6rem);
+  font-weight:900;color:var(--azul-oscuro);
+  text-align:center;margin-bottom:44px;
+}
+
+/* CARDS */
+.grid-materias{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:32px;
+}
+.card{
+  background:var(--card);border-radius:var(--radio);overflow:hidden;
+  box-shadow:0 8px 36px rgba(46,134,171,.14);
+  border:1.5px solid rgba(255,255,255,.65);
+  backdrop-filter:blur(8px);
+  transition:transform .25s,box-shadow .25s;
+}
+.card:hover{transform:translateY(-7px);box-shadow:0 20px 50px rgba(46,134,171,.24);}
+.card img{width:100%;height:210px;object-fit:cover;display:block;}
+.card-body{padding:22px 24px 26px;}
+.etiqueta{
+  display:inline-block;background:var(--azul-medio);
+  border-radius:99px;font-size:.78rem;font-weight:600;
+  padding:3px 13px;margin-bottom:10px;
+}
+.card-titulo{
+  font-family:'Playfair Display',serif;
+  font-size:1.38rem;font-weight:700;margin-bottom:8px;
+}
+.card-desc{font-size:.91rem;color:#3a5f72;line-height:1.58;margin-bottom:20px;}
+.btn-reservar{
+  display:inline-block;
+  background:var(--verde-wa);color:#fff;
+  border-radius:99px;padding:12px 28px;
+  font-size:.96rem;font-weight:600;text-decoration:none;
+  box-shadow:0 4px 16px rgba(37,211,102,.32);
+  transition:background .2s,transform .15s;
+}
+.btn-reservar:hover{background:#1cb858;transform:translateY(-2px);}
+
+/* VIDEOS */
+.sec-videos{background:rgba(255,255,255,.28);}
+.grid-videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;}
+.video-card{
+  background:var(--card);border-radius:var(--radio);overflow:hidden;
+  box-shadow:0 6px 26px rgba(46,134,171,.13);
+  border:1.5px solid rgba(255,255,255,.6);
+}
+.video-card iframe{width:100%;aspect-ratio:16/9;display:block;border:0;}
+.video-body{padding:16px 20px;}
+.video-num{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--azul-oscuro);}
+.video-body p{font-size:.88rem;color:#3a5f72;margin-top:5px;}
+
+/* UBICACIÓN */
+.ubicacion-box{
+  max-width:720px;margin:0 auto;
+  background:var(--card);border-radius:var(--radio);overflow:hidden;
+  box-shadow:0 8px 32px rgba(46,134,171,.14);
+  border:1.5px solid rgba(255,255,255,.6);
+  text-align:center;
+}
+.ubicacion-box iframe{width:100%;height:240px;display:block;border:0;}
+.ubicacion-cuerpo{padding:26px 30px;}
+.ubicacion-cuerpo p{font-size:.95rem;color:#3a5f72;line-height:1.62;margin-bottom:16px;}
+.btn-mapa{
+  display:inline-block;background:var(--azul-oscuro);color:#fff;
+  border-radius:99px;padding:11px 26px;font-size:.92rem;font-weight:600;
+  text-decoration:none;transition:background .2s;
+}
+.btn-mapa:hover{background:#1a6e96;}
+
+/* REDES */
+.sec-redes{text-align:center;padding:52px 6vw 36px;}
+.sec-redes h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.5rem,3.5vw,2.1rem);
+  color:var(--azul-oscuro);margin-bottom:32px;
+}
+.redes-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:24px;}
+.red-card{
+  background:var(--card);border-radius:var(--radio);
+  border:1.5px solid rgba(255,255,255,.6);
+  box-shadow:0 5px 20px rgba(46,134,171,.12);
+  padding:26px 36px;min-width:210px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  text-decoration:none;color:var(--texto);
+  transition:transform .2s,box-shadow .2s;
+}
+.red-card:hover{transform:translateY(-5px);box-shadow:0 12px 32px rgba(46,134,171,.22);}
+.red-icono{font-size:2.5rem;}
+.red-nombre{font-weight:700;font-size:1.05rem;}
+
+/* FOOTER */
+footer{
+  text-align:center;padding:22px 6vw;
+  background:var(--azul-oscuro);
+  color:rgba(255,255,255,.82);font-size:.86rem;
+}
+
+@media(max-width:620px){
+  nav{padding:0 4vw;}
+  .nav-links{gap:12px;}
+  section{padding:52px 4vw;}
+}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-titulo">Clases Particulares</div>
+  <div class="splash-sub">Cargando Aula Ingeniería…</div>
+  <div class="barra-wrap"><div class="barra-fill"></div></div>
+</div>
+
+<!-- PÁGINA -->
+<div id="pagina">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Aula Ingeniería</div>
+    <ul class="nav-links">
+      <li><a href="#materias">Materias</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#ubicacion">Ubicación</a></li>
+      <li><a href="#redes">Redes</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>Aula <em>Ingeniería</em></h1>
+    <p class="desc">Encuentra soluciones claras a tus problemas</p>
+    <div class="rutas">
+      <a href="#termodinamica" class="ruta-pill">🌡️ Termodinámica</a>
+      <a href="#fisica3"       class="ruta-pill">⚡ Física 3</a>
+      <a href="#calculo1"      class="ruta-pill">∫ Cálculo 1</a>
+    </div>
+  </div>
+
+  <!-- BANNER -->
+  <div class="banner">✨ Refuerza tu conocimiento con clases personalizadas ✨</div>
+
+  <!-- MATERIAS -->
+  <section id="materias">
+    <h2 class="sec-titulo">Nuestras Materias</h2>
+    <div class="grid-materias">
+
+      <!-- TERMODINÁMICA -->
+      <div class="card" id="termodinamica">
+        <!-- REEMPLAZA ESTE src CON TU ENLACE DE IMAGEN -->
+        <img src="https://TU-ENLACE-IMAGEN-TERMODINAMICA.com/imagen.jpg" alt="Ejercicio Termodinámica"/>
+        <div class="card-body">
+          <span class="etiqueta">🌡️ Termodinámica</span>
+          <div class="card-titulo">Termodinámica</div>
+          <p class="card-desc">Domina los ciclos termodinámicos, leyes fundamentales, entropía, entalpía y más con ejercicios resueltos paso a paso.</p>
+          <!-- REEMPLAZA EL href CON TU ENLACE DE WHATSAPP -->
+          <a href="https://TU-ENLACE-DE-WHATSAPP" class="btn-reservar" target="_blank">📅 Reservar Clase</a>
+        </div>
+      </div>
+
+      <!-- FÍSICA 3 -->
+      <div class="card" id="fisica3">
+        <!-- REEMPLAZA ESTE src CON TU ENLACE DE IMAGEN -->
+        <img src="https://TU-ENLACE-IMAGEN-FISICA3.com/imagen.jpg" alt="Ejercicio Física 3"/>
+        <div class="card-body">
+          <span class="etiqueta">⚡ Física 3</span>
+          <div class="card-titulo">Física 3</div>
+          <p class="card-desc">Electricidad, magnetismo, ondas electromagnéticas y óptica. Explicaciones claras con ejercicios resueltos.</p>
+          <!-- REEMPLAZA EL href CON TU ENLACE DE WHATSAPP -->
+          <a href="https://TU-ENLACE-DE-WHATSAPP" class="btn-reservar" target="_blank">📅 Reservar Clase</a>
+        </div>
+      </div>
+
+      <!-- CÁLCULO 1 -->
+      <div class="card" id="calculo1">
+        <!-- REEMPLAZA ESTE src CON TU ENLACE DE IMAGEN -->
+        <img src="https://TU-ENLACE-IMAGEN-CALCULO1.com/imagen.jpg" alt="Ejercicio Cálculo 1"/>
+        <div class="card-body">
+          <span class="etiqueta">∫ Cálculo 1</span>
+          <div class="card-titulo">Cálculo 1</div>
+          <p class="card-desc">Límites, derivadas, integrales y sus aplicaciones. Entendé los fundamentos del cálculo con métodos claros.</p>
+          <!-- REEMPLAZA EL href CON TU ENLACE DE WHATSAPP -->
+          <a href="https://TU-ENLACE-DE-WHATSAPP" class="btn-reservar" target="_blank">📅 Reservar Clase</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section id="videos" class="sec-videos">
+    <h2 class="sec-titulo">Videos de Demostración</h2>
+    <div class="grid-videos">
+
+      <div class="video-card">
+        <!-- REEMPLAZA EL src CON TU ENLACE DE YOUTUBE 1
+             Ejemplo: https://www.youtube.com/embed/IDVIDEO1 -->
+        <iframe src="https://www.youtube.com/embed/TU-ID-VIDEO-1" allowfullscreen></iframe>
+        <div class="video-body">
+          <div class="video-num">Video 1</div>
+          <p>Demostración de ejercicio resuelto.</p>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <!-- REEMPLAZA EL src CON TU ENLACE DE YOUTUBE 2
+             Ejemplo: https://www.youtube.com/embed/IDVIDEO2 -->
+        <iframe src="https://www.youtube.com/embed/TU-ID-VIDEO-2" allowfullscreen></iframe>
+        <div class="video-body">
+          <div class="video-num">Video 2</div>
+          <p>Demostración de ejercicio resuelto.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- UBICACIÓN -->
+  <section id="ubicacion">
+    <h2 class="sec-titulo">📍 Nuestra Ubicación</h2>
+    <div class="ubicacion-box">
+      <!-- REEMPLAZA EL src CON TU ENLACE DE GOOGLE MAPS
+           En Google Maps: Compartir > Insertar mapa > copiá el src del iframe -->
+      <iframe src="https://TU-ENLACE-GOOGLE-MAPS-EMBED" allowfullscreen loading="lazy"></iframe>
+      <div class="ubicacion-cuerpo">
+        <p>Disponibles para clases presenciales y virtuales. Contactanos para coordinar horario y lugar.</p>
+        <!-- REEMPLAZA EL href CON TU ENLACE DE GOOGLE MAPS -->
+        <a href="https://TU-ENLACE-GOOGLE-MAPS" class="btn-mapa" target="_blank">📍 Ver en Google Maps</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REDES SOCIALES -->
+  <div id="redes" class="sec-redes">
+    <h2>Nuestras Redes Sociales</h2>
+    <div class="redes-grid">
+
+      <!-- REEMPLAZA EL href CON TU ENLACE DE WHATSAPP
+           Ejemplo: https://wa.me/549TUNUMERO -->
+      <a href="https://TU-ENLACE-DE-WHATSAPP" class="red-card" target="_blank">
+        <span class="red-icono">💬</span>
+        <span class="red-nombre">WhatsApp</span>
+      </a>
+
+      <!-- REEMPLAZA EL href CON TU ENLACE DE FACEBOOK
+           Ejemplo: https://facebook.com/tupagina -->
+      <a href="https://TU-ENLACE-DE-FACEBOOK" class="red-card" target="_blank">
+        <span class="red-icono">📘</span>
+        <span class="red-nombre">Facebook</span>
+      </a>
+
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Aula Ingeniería · Todos los derechos reservados
+  </footer>
+
+</div>
+
+<script>
+  setTimeout(function(){
+    document.getElementById('splash').classList.add('oculto');
+    document.getElementById('pagina').classList.add('visible');
+  }, 2000);
+</script>
+
+</body>
+</html>
